@@ -47,6 +47,11 @@
   color: #fff;
 }
 
+.home-filters-genre button.is-active {
+  background: var(--miku-pink);
+  border-color: var(--miku-pink);
+}
+
 .song-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

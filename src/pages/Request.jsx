@@ -38,7 +38,7 @@ function Request() {
       })
       setTitle('')
       setNote('')
-      setStatus({ type: 'ok', message: '요청이 등록됐어요! 오타마톤으로 열심히 연습해볼게요 🎶' })
+      setStatus({ type: 'ok', message: '요청이 등록됐어요! 오타마톤으로 열심히 연습해볼게요.' })
     } catch (err) {
       console.error(err)
       setStatus({ type: 'error', message: '요청 등록에 실패했어요. 잠시 후 다시 시도해주세요.' })
@@ -51,7 +51,7 @@ function Request() {
     <div className="page">
       <div className="container">
         <div className="home-hero">
-          <span className="eyebrow">🙋 노래 요청</span>
+          <span className="eyebrow">노래 요청</span>
           <h1>듣고 싶은 노래가 있나요?</h1>
           <p>연주해줬으면 하는 노래를 요청해보세요.</p>
         </div>
@@ -81,7 +81,7 @@ function Request() {
             />
           </div>
           <button className="btn btn-pink" type="submit" disabled={submitting}>
-            {submitting ? '등록 중...' : '요청 보내기 ♪'}
+            {submitting ? '등록 중...' : '요청 보내기'}
           </button>
           {status && (
             <p className={status.type === 'error' ? 'error-text' : 'hint'} style={{ marginTop: '0.6rem' }}>

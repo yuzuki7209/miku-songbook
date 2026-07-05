@@ -12,9 +12,7 @@ function Header() {
             <span className="tail tail-left" />
             <span className="tail tail-right" />
           </span>
-          <span className="brand-text">
-            미쿠 노래책 <span className="brand-note">♪</span>
-          </span>
+          <span className="brand-text">미쿠마톤 노래책</span>
         </NavLink>
         <nav className="site-nav">
           <NavLink to="/" className={linkClass} end>

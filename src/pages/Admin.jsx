@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore'
 import { auth, db, ADMIN_EMAIL } from '../firebase'
 import { DEFAULT_PROFICIENCY, getProficiency } from '../lib/proficiency'
+import { DEFAULT_GENRE, GENRES } from '../lib/genre'
 import OtamatoneFader from '../components/OtamatoneFader'
 import './Admin.css'
 
@@ -44,7 +45,7 @@ function LoginGate() {
     <div className="page">
       <div className="container container-narrow">
         <div className="home-hero">
-          <span className="eyebrow">🔒 관리자</span>
+          <span className="eyebrow">관리자</span>
           <h1>관리자 로그인</h1>
           <p>비밀번호를 입력하면 노래를 추가하고 삭제할 수 있어요.</p>
         </div>
@@ -79,9 +80,11 @@ function SongManager() {
   const [songs, setSongs] = useState([])
   const [loading, setLoading] = useState(true)
   const [title, setTitle] = useState('')
+  const [singer, setSinger] = useState('')
   const [sheetUrl, setSheetUrl] = useState('')
   const [audioUrl, setAudioUrl] = useState('')
   const [proficiency, setProficiency] = useState(DEFAULT_PROFICIENCY)
+  const [genre, setGenre] = useState(DEFAULT_GENRE)
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState(null)
 
@@ -102,15 +105,19 @@ function SongManager() {
     try {
       await addDoc(collection(db, 'songs'), {
         title: title.trim(),
+        singer: singer.trim(),
         sheetUrl: sheetUrl.trim(),
         audioUrl: audioUrl.trim(),
         proficiency,
+        genre,
         createdAt: serverTimestamp(),
       })
       setTitle('')
+      setSinger('')
       setSheetUrl('')
       setAudioUrl('')
       setProficiency(DEFAULT_PROFICIENCY)
+      setGenre(DEFAULT_GENRE)
       setStatus({ type: 'ok', message: '노래를 추가했어요!' })
     } catch (err) {
       console.error(err)
@@ -147,6 +154,33 @@ function SongManager() {
           />
         </div>
         <div className="field">
+          <label htmlFor="song-singer">가수</label>
+          <input
+            id="song-singer"
+            className="input"
+            value={singer}
+            maxLength={100}
+            onChange={(event) => setSinger(event.target.value)}
+            placeholder="예: 하츠네 미쿠"
+            required
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="song-genre">장르</label>
+          <select
+            id="song-genre"
+            className="input"
+            value={genre}
+            onChange={(event) => setGenre(event.target.value)}
+          >
+            {GENRES.map((g) => (
+              <option key={g} value={g}>
+                {g}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
           <label htmlFor="song-sheet">악보 링크</label>
           <input
             id="song-sheet"
@@ -175,7 +209,7 @@ function SongManager() {
           <OtamatoneFader value={proficiency} onChange={setProficiency} />
         </div>
         <button className="btn" type="submit" disabled={saving}>
-          {saving ? '추가하는 중...' : '노래 추가하기 ♪'}
+          {saving ? '추가하는 중...' : '노래 추가하기'}
         </button>
         {status && (
           <p className={status.type === 'error' ? 'error-text' : 'hint'} style={{ marginTop: '0.6rem' }}>
@@ -196,7 +230,9 @@ function SongManager() {
                 <span className={`badge ${getProficiency(song.proficiency).badgeClass}`}>
                   {getProficiency(song.proficiency).label}
                 </span>
+                {song.genre && <span className="badge badge-genre">{song.genre}</span>}
               </div>
+              {song.singer && <p className="hint">{song.singer}</p>}
               <div className="admin-song-links">
                 {song.sheetUrl && (
                   <a href={song.sheetUrl} target="_blank" rel="noreferrer">
@@ -310,7 +346,7 @@ function AdminDashboard() {
       <div className="container">
         <div className="admin-top">
           <div className="home-hero admin-hero">
-            <span className="eyebrow">🎛️ 관리자</span>
+            <span className="eyebrow">관리자</span>
             <h1>노래책 관리</h1>
           </div>
           <button className="btn btn-ghost btn-sm" type="button" onClick={() => signOut(auth)}>

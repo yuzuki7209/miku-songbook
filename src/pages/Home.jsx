@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db } from '../firebase'
 import { PROFICIENCY_LEVELS } from '../lib/proficiency'
+import { GENRES } from '../lib/genre'
 import SongCard from '../components/SongCard'
 import './Home.css'
 
@@ -11,6 +12,7 @@ function Home() {
   const [error, setError] = useState(null)
   const [searchText, setSearchText] = useState('')
   const [levelFilter, setLevelFilter] = useState('all')
+  const [genreFilter, setGenreFilter] = useState('all')
 
   useEffect(() => {
     const q = query(collection(db, 'songs'), orderBy('createdAt', 'desc'))
@@ -32,18 +34,22 @@ function Home() {
   const filteredSongs = useMemo(() => {
     const keyword = searchText.trim().toLowerCase()
     return songs.filter((song) => {
-      const matchesKeyword = !keyword || song.title?.toLowerCase().includes(keyword)
+      const matchesKeyword =
+        !keyword ||
+        song.title?.toLowerCase().includes(keyword) ||
+        song.singer?.toLowerCase().includes(keyword)
       const matchesLevel = levelFilter === 'all' || song.proficiency === levelFilter
-      return matchesKeyword && matchesLevel
+      const matchesGenre = genreFilter === 'all' || song.genre === genreFilter
+      return matchesKeyword && matchesLevel && matchesGenre
     })
-  }, [songs, searchText, levelFilter])
+  }, [songs, searchText, levelFilter, genreFilter])
 
   return (
     <div className="page">
       <div className="container">
         <div className="home-hero">
-          <span className="eyebrow">🎤 Hatsune Miku × 🎵 Otamatone</span>
-          <h1>오타마톤으로 연주하는 미쿠 노래책</h1>
+          <span className="eyebrow">Hatsune Miku × Otamatone</span>
+          <h1>오타마톤으로 연주하는 미쿠마톤 노래책</h1>
           <p>연습한 노래를 모아두고, 악보와 음원을 검색해보세요.</p>
         </div>
 
@@ -51,7 +57,7 @@ function Home() {
           <input
             className="input"
             type="search"
-            placeholder="노래 제목으로 검색하기 (예: 텔레캐스터 소녀)"
+            placeholder="제목이나 가수로 검색하기 (예: 텔레캐스터 소녀)"
             value={searchText}
             onChange={(event) => setSearchText(event.target.value)}
           />
@@ -71,6 +77,25 @@ function Home() {
                 onClick={() => setLevelFilter(level.id)}
               >
                 {level.label}
+              </button>
+            ))}
+          </div>
+          <div className="home-filters home-filters-genre">
+            <button
+              type="button"
+              className={genreFilter === 'all' ? 'is-active' : ''}
+              onClick={() => setGenreFilter('all')}
+            >
+              전체 장르
+            </button>
+            {GENRES.map((genre) => (
+              <button
+                key={genre}
+                type="button"
+                className={genreFilter === genre ? 'is-active' : ''}
+                onClick={() => setGenreFilter(genre)}
+              >
+                {genre}
               </button>
             ))}
           </div>

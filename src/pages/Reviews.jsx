@@ -37,7 +37,7 @@ function Reviews() {
         createdAt: serverTimestamp(),
       })
       setContent('')
-      setStatus({ type: 'ok', message: '감상평 감사해요! 💚' })
+      setStatus({ type: 'ok', message: '감상평 감사해요!' })
     } catch (err) {
       console.error(err)
       setStatus({ type: 'error', message: '등록에 실패했어요. 잠시 후 다시 시도해주세요.' })
@@ -50,7 +50,7 @@ function Reviews() {
     <div className="page">
       <div className="container">
         <div className="home-hero">
-          <span className="eyebrow">💌 감상평</span>
+          <span className="eyebrow">감상평</span>
           <h1>노래책에 남기는 한마디</h1>
           <p>연주를 듣고 느낀 점을 자유롭게 남겨주세요.</p>
         </div>
@@ -80,7 +80,7 @@ function Reviews() {
             />
           </div>
           <button className="btn" type="submit" disabled={submitting}>
-            {submitting ? '등록 중...' : '감상평 남기기 ♪'}
+            {submitting ? '등록 중...' : '감상평 남기기'}
           </button>
           {status && (
             <p className={status.type === 'error' ? 'error-text' : 'hint'} style={{ marginTop: '0.6rem' }}>

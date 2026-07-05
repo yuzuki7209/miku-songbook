@@ -12,11 +12,14 @@ service cloud.firestore {
         && request.resource.data.title is string
         && request.resource.data.title.size() > 0
         && request.resource.data.title.size() < 200
+        && request.resource.data.singer is string
+        && request.resource.data.singer.size() < 100
         && request.resource.data.sheetUrl is string
         && request.resource.data.sheetUrl.size() < 500
         && request.resource.data.audioUrl is string
         && request.resource.data.audioUrl.size() < 500
-        && request.resource.data.proficiency in ['good', 'okay', 'cry'];
+        && request.resource.data.proficiency in ['good', 'okay', 'cry']
+        && request.resource.data.genre in ['제이팝', '보컬로이드', '가요', '발라드', '재즈', '팝', '기타'];
     }
 
     // 노래 요청: 방문자 누구나 남길 수 있고, 삭제(정리)는 관리자만.

@@ -11,7 +11,7 @@ function FirebaseSetupNotice() {
     <div className="page">
       <div className="container container-narrow">
         <div className="home-hero">
-          <span className="eyebrow">⚙️ 설정 필요</span>
+          <span className="eyebrow">설정 필요</span>
           <h1>Firebase 설정이 아직 안 됐어요</h1>
         </div>
         <div className="card">
@@ -45,7 +45,7 @@ function App() {
       </Routes>
       <footer className="site-footer">
         <div className="container">
-          <p>🍃 Hatsune Miku &amp; Otamatone Fan Songbook — 오타마톤으로 미쿠를 연주해요</p>
+          <p>미쿠마톤 노래책 — 오타마톤으로 미쿠를 연주해요</p>
         </div>
       </footer>
     </HashRouter>

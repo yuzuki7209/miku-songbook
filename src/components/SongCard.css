@@ -30,6 +30,17 @@
   word-break: break-word;
 }
 
+.song-card-singer {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.badge-genre {
+  background: var(--miku-teal-pale);
+  color: var(--miku-teal-darker);
+}
+
 .song-card-links {
   display: flex;
   gap: 0.5rem;
