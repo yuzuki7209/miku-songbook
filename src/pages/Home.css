@@ -1,0 +1,54 @@
+.home-hero {
+  text-align: center;
+  padding: 1.5rem 0 2rem;
+}
+
+.home-hero h1 {
+  margin: 0.5rem 0;
+}
+
+.home-hero p {
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.home-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+.home-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.home-filters button {
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.home-filters button:hover {
+  border-color: var(--miku-teal-light);
+}
+
+.home-filters button.is-active {
+  background: var(--miku-teal);
+  border-color: var(--miku-teal);
+  color: #fff;
+}
+
+.song-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}

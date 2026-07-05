@@ -1,0 +1,80 @@
+.container-narrow {
+  max-width: 420px;
+}
+
+.admin-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-hero {
+  padding: 1rem 0 0.5rem;
+  text-align: left;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-tabs button {
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.admin-tabs button.is-active {
+  background: var(--miku-teal-darker);
+  border-color: var(--miku-teal-darker);
+  color: #fff;
+}
+
+.admin-song-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.admin-song-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+.admin-song-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-song-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.admin-song-title-row h3 {
+  margin: 0;
+}
+
+.admin-song-links {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+.admin-song-links a {
+  font-size: 0.9rem;
+}

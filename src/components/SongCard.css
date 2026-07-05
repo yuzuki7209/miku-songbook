@@ -1,0 +1,37 @@
+.song-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.song-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(20, 90, 85, 0.18);
+}
+
+.song-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.song-card-title {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.song-card-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}

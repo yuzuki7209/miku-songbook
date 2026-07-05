@@ -1,0 +1,30 @@
+.section-title {
+  margin-top: 2.5rem;
+}
+
+.request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.request-item {
+  padding: 1rem 1.25rem;
+}
+
+.request-item-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.request-item-head h3 {
+  margin: 0;
+}
+
+.request-note {
+  margin: 0.5rem 0 0;
+  color: var(--ink-soft);
+}

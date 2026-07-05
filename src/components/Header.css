@@ -1,0 +1,122 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(120deg, var(--miku-teal) 0%, var(--miku-teal-dark) 100%);
+  box-shadow: 0 4px 16px rgba(15, 74, 70, 0.25);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+.brand {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  padding-left: 0.5rem;
+}
+
+.brand-tails {
+  position: absolute;
+  left: -0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.4rem;
+  height: 2.2rem;
+  pointer-events: none;
+}
+
+.tail {
+  position: absolute;
+  top: 50%;
+  width: 0.55rem;
+  height: 1.9rem;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50% 50% 60% 60% / 60% 60% 40% 40%;
+}
+
+.tail-left {
+  left: -0.3rem;
+  transform: translateY(-50%) rotate(-18deg);
+}
+
+.tail-right {
+  left: 0.35rem;
+  transform: translateY(-50%) rotate(18deg);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.brand-text {
+  position: relative;
+}
+
+.brand-note {
+  color: var(--miku-pink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.site-nav a:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.site-nav a.is-active {
+  background: #fff;
+  color: var(--miku-teal-dark);
+  font-weight: 700;
+}
+
+.site-nav a.nav-admin {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+  border: 1.5px dashed rgba(255, 255, 255, 0.4);
+}
+
+.site-nav a.nav-admin.is-active {
+  background: var(--miku-pink);
+  color: #fff;
+  border-color: transparent;
+}
+
+@media (max-width: 560px) {
+  .header-inner {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .brand {
+    padding-left: 0;
+  }
+
+  .brand-tails {
+    display: none;
+  }
+}

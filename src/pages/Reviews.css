@@ -1,0 +1,30 @@
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.review-bubble {
+  position: relative;
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 4px 18px 18px 18px;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.review-bubble-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+  color: var(--miku-teal-dark);
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+}
+
+.review-bubble p {
+  margin: 0;
+  color: var(--ink);
+}
