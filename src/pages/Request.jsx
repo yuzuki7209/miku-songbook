@@ -65,7 +65,7 @@ function Request() {
               value={title}
               maxLength={200}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="예: 로미오와 시네리제"
+              placeholder="예: 미쿠미쿠하게 해줄게"
               required
             />
           </div>

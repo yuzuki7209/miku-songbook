@@ -64,7 +64,7 @@ function Reviews() {
               value={nickname}
               maxLength={30}
               onChange={(event) => setNickname(event.target.value)}
-              placeholder="예: 지나가던 미쿠팬"
+              placeholder="예: 미쿠마톤"
             />
           </div>
           <div className="field">
