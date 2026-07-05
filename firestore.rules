@@ -3,23 +3,26 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // 노래 목록: 누구나 읽을 수 있지만, 추가/삭제는 로그인한 관리자만 가능.
+    function isValidSong(data) {
+      return data.title is string
+        && data.title.size() > 0
+        && data.title.size() < 200
+        && data.singer is string
+        && data.singer.size() < 100
+        && data.sheetUrl is string
+        && data.sheetUrl.size() < 500
+        && data.audioUrl is string
+        && data.audioUrl.size() < 500
+        && data.proficiency in ['good', 'okay', 'cry']
+        && data.genre in ['제이팝', '보컬로이드', '가요', '발라드', '재즈', '팝', '기타'];
+    }
+
+    // 노래 목록: 누구나 읽을 수 있지만, 추가/수정/삭제는 로그인한 관리자만 가능.
     match /songs/{songId} {
       allow read: if true;
-      allow update: if false;
       allow delete: if request.auth != null;
-      allow create: if request.auth != null
-        && request.resource.data.title is string
-        && request.resource.data.title.size() > 0
-        && request.resource.data.title.size() < 200
-        && request.resource.data.singer is string
-        && request.resource.data.singer.size() < 100
-        && request.resource.data.sheetUrl is string
-        && request.resource.data.sheetUrl.size() < 500
-        && request.resource.data.audioUrl is string
-        && request.resource.data.audioUrl.size() < 500
-        && request.resource.data.proficiency in ['good', 'okay', 'cry']
-        && request.resource.data.genre in ['제이팝', '보컬로이드', '가요', '발라드', '재즈', '팝', '기타'];
+      allow create: if request.auth != null && isValidSong(request.resource.data);
+      allow update: if request.auth != null && isValidSong(request.resource.data);
     }
 
     // 노래 요청: 방문자 누구나 남길 수 있고, 삭제(정리)는 관리자만.

@@ -53,6 +53,23 @@
   padding: 1rem 1.25rem;
 }
 
+.admin-song-row.is-editing {
+  border-color: var(--miku-teal);
+  box-shadow: 0 0 0 3px rgba(57, 197, 187, 0.2);
+}
+
+.admin-song-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
 .admin-song-info {
   flex: 1;
   min-width: 0;

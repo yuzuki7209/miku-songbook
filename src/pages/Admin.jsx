@@ -9,6 +9,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
 } from 'firebase/firestore'
 import { auth, db, ADMIN_EMAIL } from '../firebase'
 import { DEFAULT_PROFICIENCY, getProficiency } from '../lib/proficiency'
@@ -87,6 +88,7 @@ function SongManager() {
   const [genre, setGenre] = useState(DEFAULT_GENRE)
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState(null)
+  const [editingId, setEditingId] = useState(null)
 
   useEffect(() => {
     const q = query(collection(db, 'songs'), orderBy('createdAt', 'desc'))
@@ -97,31 +99,52 @@ function SongManager() {
     return unsubscribe
   }, [])
 
-  const handleAdd = async (event) => {
+  const resetForm = () => {
+    setEditingId(null)
+    setTitle('')
+    setSinger('')
+    setSheetUrl('')
+    setAudioUrl('')
+    setProficiency(DEFAULT_PROFICIENCY)
+    setGenre(DEFAULT_GENRE)
+  }
+
+  const startEdit = (song) => {
+    setEditingId(song.id)
+    setTitle(song.title || '')
+    setSinger(song.singer || '')
+    setSheetUrl(song.sheetUrl || '')
+    setAudioUrl(song.audioUrl || '')
+    setProficiency(song.proficiency || DEFAULT_PROFICIENCY)
+    setGenre(song.genre || DEFAULT_GENRE)
+    setStatus(null)
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
     if (!title.trim()) return
     setSaving(true)
     setStatus(null)
+    const payload = {
+      title: title.trim(),
+      singer: singer.trim(),
+      sheetUrl: sheetUrl.trim(),
+      audioUrl: audioUrl.trim(),
+      proficiency,
+      genre,
+    }
     try {
-      await addDoc(collection(db, 'songs'), {
-        title: title.trim(),
-        singer: singer.trim(),
-        sheetUrl: sheetUrl.trim(),
-        audioUrl: audioUrl.trim(),
-        proficiency,
-        genre,
-        createdAt: serverTimestamp(),
-      })
-      setTitle('')
-      setSinger('')
-      setSheetUrl('')
-      setAudioUrl('')
-      setProficiency(DEFAULT_PROFICIENCY)
-      setGenre(DEFAULT_GENRE)
-      setStatus({ type: 'ok', message: '노래를 추가했어요!' })
+      if (editingId) {
+        await updateDoc(doc(db, 'songs', editingId), payload)
+        setStatus({ type: 'ok', message: '노래를 수정했어요!' })
+      } else {
+        await addDoc(collection(db, 'songs'), { ...payload, createdAt: serverTimestamp() })
+        setStatus({ type: 'ok', message: '노래를 추가했어요!' })
+      }
+      resetForm()
     } catch (err) {
       console.error(err)
-      setStatus({ type: 'error', message: '노래 추가에 실패했어요.' })
+      setStatus({ type: 'error', message: editingId ? '노래 수정에 실패했어요.' : '노래 추가에 실패했어요.' })
     } finally {
       setSaving(false)
     }
@@ -131,6 +154,7 @@ function SongManager() {
     if (!window.confirm(`'${song.title}'을(를) 삭제할까요?`)) return
     try {
       await deleteDoc(doc(db, 'songs', song.id))
+      if (editingId === song.id) resetForm()
     } catch (err) {
       console.error(err)
       window.alert('삭제에 실패했어요.')
@@ -139,8 +163,8 @@ function SongManager() {
 
   return (
     <>
-      <form className="card" onSubmit={handleAdd}>
-        <h2>새 노래 추가</h2>
+      <form className="card" onSubmit={handleSubmit}>
+        <h2>{editingId ? '노래 수정' : '새 노래 추가'}</h2>
         <div className="field">
           <label htmlFor="song-title">제목</label>
           <input
@@ -208,9 +232,16 @@ function SongManager() {
           <label>숙련도</label>
           <OtamatoneFader value={proficiency} onChange={setProficiency} />
         </div>
-        <button className="btn" type="submit" disabled={saving}>
-          {saving ? '추가하는 중...' : '노래 추가하기'}
-        </button>
+        <div className="admin-form-actions">
+          <button className="btn" type="submit" disabled={saving}>
+            {saving ? '저장하는 중...' : editingId ? '수정 완료' : '노래 추가하기'}
+          </button>
+          {editingId && (
+            <button className="btn btn-ghost" type="button" onClick={resetForm} disabled={saving}>
+              취소
+            </button>
+          )}
+        </div>
         {status && (
           <p className={status.type === 'error' ? 'error-text' : 'hint'} style={{ marginTop: '0.6rem' }}>
             {status.message}
@@ -223,7 +254,7 @@ function SongManager() {
       {!loading && songs.length === 0 && <p className="empty-state">아직 등록된 노래가 없어요.</p>}
       <div className="admin-song-list">
         {songs.map((song) => (
-          <div className="card admin-song-row" key={song.id}>
+          <div className={`card admin-song-row ${editingId === song.id ? 'is-editing' : ''}`} key={song.id}>
             <div className="admin-song-info">
               <div className="admin-song-title-row">
                 <h3>{song.title}</h3>
@@ -246,9 +277,14 @@ function SongManager() {
                 )}
               </div>
             </div>
-            <button className="btn btn-danger btn-sm" type="button" onClick={() => handleDelete(song)}>
-              삭제
-            </button>
+            <div className="admin-song-actions">
+              <button className="btn btn-ghost btn-sm" type="button" onClick={() => startEdit(song)}>
+                수정
+              </button>
+              <button className="btn btn-danger btn-sm" type="button" onClick={() => handleDelete(song)}>
+                삭제
+              </button>
+            </div>
           </div>
         ))}
       </div>
